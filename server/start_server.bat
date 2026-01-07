@@ -9,7 +9,7 @@ if not exist env (
     python -m venv env >> %INSTALL_LOG% 2>&1
     call env\Scripts\activate.bat
     python -m pip install --upgrade pip >> %INSTALL_LOG% 2>&1
-    python -m pip install websockets pyatv >> %INSTALL_LOG% 2>&1
+    python -m pip install websockets "pyatv>=0.16.1" >> %INSTALL_LOG% 2>&1
     echo ATVRemote - Python install ended %DATE% %TIME% >> %INSTALL_LOG%
     echo ================================================== >> %INSTALL_LOG%
 ) else (

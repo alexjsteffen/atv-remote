@@ -6,3 +6,5 @@ env_x86/
 .DS_Store
 app/pyscripts.js
 stopserver
+__pycache__/
+*.pyc

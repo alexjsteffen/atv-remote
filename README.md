@@ -14,7 +14,9 @@ A simple menubar app that allows you to control an Apple TV from your desktop
 
 macOS, Windows & Linux releases are available here: [Releases](https://github.com/jklewa/atv-desktop-remote/releases)
 
-Python 3.9+ is required, and can be downloaded from [python.org](https://www.python.org/downloads/)
+Python 3.9-3.13 is required, and can be downloaded from [python.org](https://www.python.org/downloads/)
+
+**Note:** Python 3.14+ is not currently supported due to pyatv's dependency on Pydantic V1. Please use Python 3.9 through 3.13.
 
 Minimum Requirements: macOS 11 (Big Sur), Windows 10, Ubuntu 18.04, Fedora 32, Debian 10
 

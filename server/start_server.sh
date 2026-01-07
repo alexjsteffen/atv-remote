@@ -13,7 +13,7 @@ if [[ ! -d $ENV_DIR ]]; then
 	python3 -m venv $ENV_DIR | tee -a $INSTALL_LOG
 	source $ENV_DIR/bin/activate
 	python -m pip install --upgrade pip | tee -a $INSTALL_LOG
-	python -m pip install websockets pyatv | tee -a $INSTALL_LOG
+	python -m pip install websockets "pyatv>=0.16.1" | tee -a $INSTALL_LOG
 	dt=$(date)
 	echo "ATVRemote - Python install ended $dt" >> $INSTALL_LOG
 	echo "==================================================" >> $INSTALL_LOG

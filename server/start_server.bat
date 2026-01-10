@@ -41,7 +41,7 @@ if not exist env (
     python -m venv env >> %INSTALL_LOG% 2>&1
     call env\Scripts\activate.bat
     python -m pip install --upgrade pip >> %INSTALL_LOG% 2>&1
-    python -m pip install websockets "pyatv>=0.16.1" >> %INSTALL_LOG% 2>&1
+    python -m pip install "pyatv>=0.16.1" >> %INSTALL_LOG% 2>&1
     echo ATVRemote - Python install ended %DATE% %TIME% >> %INSTALL_LOG%
     echo ================================================== >> %INSTALL_LOG%
 ) else (
@@ -49,12 +49,22 @@ if not exist env (
 )
 
 :kill_proc
-for /f "tokens=2 delims= " %%A in ('tasklist /FI "IMAGENAME eq python.exe" /NH') do (
-    tasklist /FI "WINDOWTITLE eq wsserver.py" | findstr wsserver.py >nul
-    if not errorlevel 1 (
-        echo Killing %%A
-        taskkill /PID %%A /F
-    )
+for /f "tokens=2 delims= " %%A in ('tasklist /FI "IMAGENAME eq wsserver.exe" /NH 2^>nul ^| findstr wsserver') do (
+    echo Killing %%A
+    taskkill /PID %%A /F >nul 2>&1
 )
 if exist setting_up_python del setting_up_python
-python wsserver.py
+
+REM Build Go server if needed
+if not exist wsserver.exe (
+    echo Building Go WebSocket server...
+    where go >nul 2>&1
+    if %ERRORLEVEL% EQU 0 (
+        go build -o wsserver.exe wsserver.go
+    ) else (
+        echo Error: Go is not installed and no pre-built binary exists 1>&2
+        exit /b 1
+    )
+)
+
+wsserver.exe

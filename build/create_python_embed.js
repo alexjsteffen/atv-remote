@@ -7,7 +7,9 @@ const outFile = path.join(__dirname, '..', 'app', 'pyscripts.js');
 
 // Define the files to embed
 const inputFiles = [
-    path.join(serverDir, 'wsserver.py'),
+    path.join(serverDir, 'wsserver.go'),
+    path.join(serverDir, 'go.mod'),
+    path.join(serverDir, 'pyatv_helper.py'),
     path.join(serverDir, 'start_server.bat'),
     path.join(serverDir, 'start_server.sh')
 ];

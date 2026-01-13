@@ -33,7 +33,7 @@ if [[ ! -d $ENV_DIR ]]; then
 	python3 -m venv $ENV_DIR | tee -a $INSTALL_LOG
 	source $ENV_DIR/bin/activate
 	python -m pip install --upgrade pip | tee -a $INSTALL_LOG
-	python -m pip install websockets "pyatv>=0.16.1" | tee -a $INSTALL_LOG
+	python -m pip install "pyatv>=0.16.1" | tee -a $INSTALL_LOG
 	dt=$(date)
 	echo "ATVRemote - Python install ended $dt" >> $INSTALL_LOG
 	echo "==================================================" >> $INSTALL_LOG
@@ -42,7 +42,7 @@ else
 fi
 
 function kill_proc () {
-	for p in $(ps ax | grep -v grep | grep wsserver.py | awk '{print $1}'); do
+	for p in $(ps ax | grep -v grep | grep -E 'wsserver$|wsserver.exe' | awk '{print $1}'); do
 		echo "Killing $p"
 		kill $1 $p
 	done
@@ -50,4 +50,18 @@ function kill_proc () {
 kill_proc
 kill_proc "-9"
 [[ -f setting_up_python ]] && rm setting_up_python
-python wsserver.py
+
+# Build Go server if needed
+if [[ ! -f wsserver ]] || [[ wsserver.go -nt wsserver ]]; then
+	echo "Building Go WebSocket server..."
+	if command -v go &> /dev/null; then
+		go build -o wsserver wsserver.go
+	elif [[ -f wsserver ]]; then
+		echo "Go not found, using existing binary"
+	else
+		echo "Error: Go is not installed and no pre-built binary exists" >&2
+		exit 1
+	fi
+fi
+
+./wsserver

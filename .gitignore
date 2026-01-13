@@ -8,3 +8,6 @@ app/pyscripts.js
 stopserver
 __pycache__/
 *.pyc
+server/wsserver
+server/wsserver.exe
+server/go.sum

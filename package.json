@@ -70,7 +70,9 @@
       }
     ],
     "extraFiles": [
-      "server/wsserver.py"
+      "server/wsserver.go",
+      "server/go.mod",
+      "server/pyatv_helper.py"
     ]
   },
   "productName": "ATV Remote"
